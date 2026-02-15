@@ -1,0 +1,25 @@
+{
+	"name": "copilot-agent",
+	"version": "0.1.0",
+	"description": "Agentic AI chat sidebar for Obsidian powered by GitHub Copilot",
+	"main": "main.js",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"typecheck": "tsc -noEmit -skipLibCheck",
+		"lint": "eslint src/",
+		"lint:fix": "eslint src/ --fix"
+	},
+	"keywords": ["obsidian", "copilot", "agent", "ai"],
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^20.11.0",
+		"@typescript-eslint/eslint-plugin": "^6.0.0",
+		"@typescript-eslint/parser": "^6.0.0",
+		"builtin-modules": "^3.3.0",
+		"esbuild": "^0.20.0",
+		"eslint": "^8.56.0",
+		"obsidian": "latest",
+		"typescript": "^5.3.0"
+	}
+}

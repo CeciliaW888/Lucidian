@@ -1,0 +1,10 @@
+{
+  "id": "claudian",
+  "name": "Lucidian",
+  "version": "0.1.0",
+  "minAppVersion": "1.8.9",
+  "description": "Embeds Claude Code and GitHub Copilot as AI collaborators in your vault. Your vault becomes the AI's working directory, giving it full agentic capabilities: file read/write, search, bash commands, and multi-step workflows.",
+  "author": "Cecilia Wang",
+  "authorUrl": "https://github.com/CeciliaW888",
+  "isDesktopOnly": true
+}

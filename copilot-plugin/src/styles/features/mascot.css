@@ -1,0 +1,176 @@
+/* ═══════════════════════════════════════════════════════════
+   Lucidian Mascot — animated crystal spirit
+   States: idle, thinking, working, done
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Base container ── */
+.lucidian-mascot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.lucidian-mascot-svg {
+  transition: transform 0.3s ease;
+}
+
+/* ── IDLE state: gentle breathing ── */
+.lucidian-mascot--idle .lucidian-mascot-svg {
+  animation: lucidian-breathe 3s ease-in-out infinite;
+}
+
+.lucidian-mascot--idle .lucidian-eyes {
+  animation: lucidian-blink 4s ease-in-out infinite;
+}
+
+@keyframes lucidian-breathe {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.02) translateY(-1px); }
+}
+
+@keyframes lucidian-blink {
+  0%, 42%, 48%, 100% { transform: scaleY(1); }
+  45% { transform: scaleY(0.1); }
+}
+
+/* ── THINKING state: pulsing glow, squinting eyes ── */
+.lucidian-mascot--thinking .lucidian-body {
+  animation: lucidian-think-pulse 1.5s ease-in-out infinite;
+}
+
+.lucidian-mascot--thinking .lucidian-glow-ring {
+  animation: lucidian-glow-pulse 1.5s ease-in-out infinite;
+}
+
+.lucidian-mascot--thinking .lucidian-eyes {
+  transform: scaleY(0.6);
+  transform-origin: center 42px;
+  transition: transform 0.3s ease;
+}
+
+.lucidian-mascot--thinking .lucidian-mouth {
+  d: path("M44 56Q50 56 56 56");
+  transition: d 0.3s ease;
+}
+
+@keyframes lucidian-think-pulse {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  50% { opacity: 0.85; filter: brightness(1.15); }
+}
+
+@keyframes lucidian-glow-pulse {
+  0%, 100% { opacity: 0.2; stroke-width: 2; }
+  50% { opacity: 0.6; stroke-width: 4; }
+}
+
+/* ── WORKING state: active animation, bouncing, rotating facets ── */
+.lucidian-mascot--working .lucidian-mascot-svg {
+  animation: lucidian-work-bounce 0.6s ease-in-out infinite;
+}
+
+.lucidian-mascot--working .lucidian-facets {
+  animation: lucidian-facet-spin 2s linear infinite;
+  transform-origin: 50px 50px;
+}
+
+.lucidian-mascot--working .lucidian-glow-ring {
+  animation: lucidian-work-glow 0.8s ease-in-out infinite;
+}
+
+.lucidian-mascot--working .lucidian-eyes {
+  animation: lucidian-work-eyes 1.2s ease-in-out infinite;
+}
+
+.lucidian-mascot--working .lucidian-pupil-left,
+.lucidian-mascot--working .lucidian-pupil-right {
+  animation: lucidian-look-around 2s ease-in-out infinite;
+}
+
+@keyframes lucidian-work-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-2px) rotate(-1deg); }
+  75% { transform: translateY(-2px) rotate(1deg); }
+}
+
+@keyframes lucidian-facet-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes lucidian-work-glow {
+  0%, 100% { opacity: 0.3; stroke: #7C5CFC; }
+  50% { opacity: 0.8; stroke: #A78BFA; }
+}
+
+@keyframes lucidian-work-eyes {
+  0%, 100% { transform: scaleY(1); }
+  15% { transform: scaleY(0.8); }
+  30% { transform: scaleY(1); }
+}
+
+@keyframes lucidian-look-around {
+  0%, 100% { cx: 0; }
+  25% { transform: translateX(1.5px); }
+  75% { transform: translateX(-1.5px); }
+}
+
+/* ── DONE state: sparkle celebration ── */
+.lucidian-mascot--done .lucidian-mascot-svg {
+  animation: lucidian-celebrate 0.5s ease-out;
+}
+
+.lucidian-mascot--done .lucidian-sparkles {
+  animation: lucidian-sparkle-burst 1.5s ease-out forwards;
+}
+
+.lucidian-mascot--done .lucidian-glow-ring {
+  animation: lucidian-done-flash 0.6s ease-out;
+}
+
+.lucidian-mascot--done .lucidian-mouth {
+  d: path("M40 54Q50 66 60 54");
+}
+
+@keyframes lucidian-celebrate {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.1) rotate(-3deg); }
+  60% { transform: scale(1.05) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes lucidian-sparkle-burst {
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0; transform: scale(2); }
+}
+
+@keyframes lucidian-done-flash {
+  0% { opacity: 0.3; stroke: #7C5CFC; }
+  30% { opacity: 1; stroke: #DDD6FE; stroke-width: 6; }
+  100% { opacity: 0.3; stroke: #7C5CFC; stroke-width: 2; }
+}
+
+/* ── Streaming indicator (mini mascot) ── */
+.lucidian-stream-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.lucidian-stream-indicator .lucidian-mascot {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Welcome screen mascot ── */
+.lucidian-welcome-mascot {
+  margin-bottom: 16px;
+}
+
+.lucidian-welcome-mascot .lucidian-mascot {
+  filter: drop-shadow(0 4px 12px rgba(124, 92, 252, 0.25));
+}
