@@ -239,12 +239,11 @@ If different, GUI apps like Obsidian may not find Node.js.
 src/
 ├── main.ts                      # Plugin entry point
 ├── core/                        # Core infrastructure
-│   ├── agent/                   # Claude Agent SDK wrapper (LucidianService)
+│   ├── agent/                   # Claude Agent SDK wrapper (ClaudianService)
 │   ├── agents/                  # Custom agent management (AgentManager)
 │   ├── commands/                # Slash command management (SlashCommandManager)
 │   ├── copilot/                 # GitHub Copilot integration (CopilotService)
 │   ├── hooks/                   # PreToolUse/PostToolUse hooks
-│   ├── images/                  # Image caching and loading
 │   ├── mcp/                     # MCP server config, service, and testing
 │   ├── plugins/                 # Claude Code plugin discovery and management
 │   ├── prompts/                 # System prompts for agents
@@ -267,12 +266,6 @@ src/
 ├── utils/                       # Modular utility functions
 └── style/                       # Modular CSS (→ styles.css)
 ```
-
-## Copilot Agent Plugin
-
-In the `copilot-plugin/` directory, you'll find a standalone Copilot Agent plugin—a minimal proof-of-concept that demonstrates GitHub Copilot integration without Claude Code dependencies. This was the initial MVP and is kept for reference.
-
-For production use, use the main Lucidian plugin which supports both Claude Code and GitHub Copilot through a unified interface.
 
 ## Roadmap
 
