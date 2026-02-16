@@ -1,6 +1,7 @@
 import { Notice, setIcon } from 'obsidian';
 import * as path from 'path';
 
+import { COPILOT_MODELS } from '../../../core/copilot/models';
 import type { McpServerManager } from '../../../core/mcp';
 import type {
   ClaudeModel,
@@ -13,7 +14,6 @@ import {
   DEFAULT_CLAUDE_MODELS,
   THINKING_BUDGETS
 } from '../../../core/types';
-import { COPILOT_MODELS } from '../../../core/copilot/models';
 import { CHECK_ICON_SVG, MCP_ICON_SVG } from '../../../shared/icons';
 import { getModelsFromEnvironment, parseEnvironmentVariables } from '../../../utils/env';
 import { filterValidPaths, findConflictingPath, isDuplicatePath, isValidDirectoryPath, validateDirectoryPath } from '../../../utils/externalContext';

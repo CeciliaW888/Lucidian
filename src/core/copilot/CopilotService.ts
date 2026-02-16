@@ -13,14 +13,13 @@
 
 import type { App } from 'obsidian';
 
-import type { ChatMessage, ImageAttachment, StreamChunk } from '../types/chat';
 import type { SlashCommand } from '../types';
-
-import { fetchCopilotToken, isTokenExpired, type CopilotToken } from './auth';
-import { streamChat, type CopilotChatMessage, type CopilotToolCall } from './client';
-import { COPILOT_TOOL_DEFINITIONS } from './tools';
+import type { ChatMessage, ImageAttachment, StreamChunk } from '../types/chat';
+import { type CopilotToken,fetchCopilotToken, isTokenExpired } from './auth';
+import { type CopilotChatMessage, type CopilotToolCall,streamChat } from './client';
 import { CopilotToolExecutor } from './executor';
-import { DEFAULT_COPILOT_MODEL, COPILOT_MODELS, type CopilotModelOption } from './models';
+import { COPILOT_MODELS, type CopilotModelOption,DEFAULT_COPILOT_MODEL } from './models';
+import { COPILOT_TOOL_DEFINITIONS } from './tools';
 
 const MAX_TOOL_ROUNDS = 25;
 

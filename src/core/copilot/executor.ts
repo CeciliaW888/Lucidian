@@ -8,9 +8,8 @@
 
 import { exec } from 'child_process';
 import * as fs from 'fs';
-import * as path from 'path';
-
 import type { App } from 'obsidian';
+import * as path from 'path';
 
 import { COPILOT_TOOL_NAMES } from './tools';
 

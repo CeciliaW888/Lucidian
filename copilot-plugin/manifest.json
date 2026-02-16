@@ -1,9 +1,0 @@
-{
-	"id": "copilot-agent",
-	"name": "Copilot Agent",
-	"version": "0.1.0",
-	"minAppVersion": "1.5.0",
-	"description": "Agentic AI chat sidebar powered by GitHub Copilot. File read/write, bash commands, search, and multi-step workflows — with a polished Claudian-inspired UI.",
-	"author": "CeciliaW888",
-	"isDesktopOnly": true
-}

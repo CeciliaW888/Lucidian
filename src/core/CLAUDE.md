@@ -6,11 +6,11 @@ Core modules have **no feature dependencies**. Features depend on core, never th
 
 | Module | Purpose | Key Files |
 |--------|---------|-----------|
-| `agent/` | Claude Agent SDK wrapper | `ClaudianService` (incl. fork session tracking), `SessionManager`, `QueryOptionsBuilder` (incl. `resumeSessionAt`), `MessageChannel`, `customSpawn` |
-| `agents/` | Custom agent discovery | `AgentManager`, `AgentStorage` |
+| `agent/` | Claude Agent SDK wrapper | `ClaudianService` (SDK integration, incl. fork session tracking), `SessionManager`, `QueryOptionsBuilder` (incl. `resumeSessionAt`), `MessageChannel`, `customSpawn` |
+| `agents/` | Custom agent discovery | `AgentManager` (user-defined agents), `AgentStorage` (vault-stored agents) |
 | `commands/` | Built-in command actions | `builtInCommands` |
+| `copilot/` | GitHub Copilot integration | `CopilotService`, `auth`, `client`, `executor`, `models`, `tools` |
 | `hooks/` | Security hooks | `SecurityHooks` |
-| `images/` | Image caching | SHA-256 dedup, base64 encoding |
 | `mcp/` | Model Context Protocol | `McpServerManager`, `McpTester` |
 | `plugins/` | Claude Code plugins | `PluginManager` |
 | `prompts/` | System prompts | `mainAgent`, `inlineEdit`, `instructionRefine`, `titleGeneration` |

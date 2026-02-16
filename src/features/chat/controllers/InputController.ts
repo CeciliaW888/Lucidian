@@ -1,8 +1,8 @@
 import { Notice } from 'obsidian';
 
 import type { ApprovalCallbackOptions, ClaudianService } from '../../../core/agent';
-import type { CopilotService } from '../../../core/copilot';
 import { detectBuiltInCommand } from '../../../core/commands';
+import type { CopilotService } from '../../../core/copilot';
 import { TOOL_EXIT_PLAN_MODE } from '../../../core/tools/toolNames';
 import type { ApprovalDecision, ChatMessage, ExitPlanModeDecision } from '../../../core/types';
 import type ClaudianPlugin from '../../../main';

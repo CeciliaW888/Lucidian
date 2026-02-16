@@ -8,8 +8,6 @@
 import type { Editor, MarkdownView } from 'obsidian';
 import { addIcon, Notice, Plugin } from 'obsidian';
 
-import { LUCIDIAN_ICON_SVG } from './shared/lucidian-mascot';
-
 import { AgentManager } from './core/agents';
 import { McpServerManager } from './core/mcp';
 import { PluginManager } from './core/plugins';
@@ -34,6 +32,7 @@ import { ClaudianView } from './features/chat/ClaudianView';
 import { type InlineEditContext, InlineEditModal } from './features/inline-edit/ui/InlineEditModal';
 import { ClaudianSettingTab } from './features/settings/ClaudianSettings';
 import { setLocale } from './i18n';
+import { LUCIDIAN_ICON_SVG } from './shared/lucidian-mascot';
 import { ClaudeCliResolver } from './utils/claudeCli';
 import { buildCursorContext } from './utils/editor';
 import { getCurrentModelFromEnvironment, getModelsFromEnvironment, parseEnvironmentVariables } from './utils/env';

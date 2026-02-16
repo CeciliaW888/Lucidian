@@ -4,8 +4,8 @@ import { Notice, PluginSettingTab, Setting } from 'obsidian';
 
 import { fetchDeviceCode, pollForAccessToken } from '../../core/copilot/auth';
 import { COPILOT_MODELS } from '../../core/copilot/models';
-import { getCurrentPlatformKey, getHostnameKey } from '../../core/types';
 import type { ProviderType } from '../../core/types';
+import { getCurrentPlatformKey, getHostnameKey } from '../../core/types';
 import { DEFAULT_CLAUDE_MODELS } from '../../core/types/models';
 import { getAvailableLocales, getLocaleDisplayName, setLocale, t } from '../../i18n';
 import type { Locale, TranslationKey } from '../../i18n/types';
