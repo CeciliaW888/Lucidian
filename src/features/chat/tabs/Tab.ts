@@ -2,7 +2,7 @@ import type { Component } from 'obsidian';
 import { Notice } from 'obsidian';
 
 import { ClaudianService } from '../../../core/agent';
-import { CopilotService } from '../../../core/copilot';
+import { COPILOT_FALLBACK_MODELS,CopilotService } from '../../../core/copilot';
 import type { McpServerManager } from '../../../core/mcp';
 import type { ChatMessage, ClaudeModel, Conversation, PermissionMode, SlashCommand, ThinkingBudget } from '../../../core/types';
 import { DEFAULT_CLAUDE_MODELS, DEFAULT_THINKING_BUDGET, getContextWindowSize } from '../../../core/types';
@@ -269,7 +269,13 @@ export async function initializeTabService(
       });
       tab.dom.eventCleanups.push(() => unsubscribeReadyState?.());
 
-      service.ensureReady().catch(() => {
+      service.ensureReady().then(() => {
+        // After auth + model fetch, push models to plugin cache and refresh UI
+        const models = (service as CopilotService).getAvailableModels();
+        plugin.setCachedCopilotModels(models);
+        tab.ui.modelSelector?.renderOptions();
+        tab.ui.modelSelector?.updateDisplay();
+      }).catch(() => {
         // Best-effort
       });
     } else {
@@ -459,6 +465,12 @@ function initializeInputToolbar(tab: TabData, plugin: ClaudianPlugin): void {
       copilotModel: plugin.settings.copilotModel,
     }),
     getEnvironmentVariables: () => plugin.getActiveEnvironmentVariables(),
+    getCopilotModels: () => {
+      const models = tab.service instanceof CopilotService
+        ? (tab.service as CopilotService).getAvailableModels()
+        : plugin.getCachedCopilotModels() ?? COPILOT_FALLBACK_MODELS;
+      return models.map(m => ({ value: m.id, label: m.name, description: m.provider }));
+    },
     onModelChange: async (model: ClaudeModel) => {
       plugin.settings.model = model;
       const isDefaultModel = DEFAULT_CLAUDE_MODELS.find((m) => m.value === model);

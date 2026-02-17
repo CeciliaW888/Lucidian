@@ -1,7 +1,7 @@
 import { Notice, setIcon } from 'obsidian';
 import * as path from 'path';
 
-import { COPILOT_MODELS } from '../../../core/copilot/models';
+import { COPILOT_FALLBACK_MODELS } from '../../../core/copilot/models';
 import type { McpServerManager } from '../../../core/mcp';
 import type {
   ClaudeModel,
@@ -35,6 +35,7 @@ export interface ToolbarCallbacks {
   onPermissionModeChange: (mode: PermissionMode) => Promise<void>;
   getSettings: () => ToolbarSettings;
   getEnvironmentVariables?: () => string;
+  getCopilotModels?: () => { value: string; label: string; description: string }[];
 }
 
 export class ModelSelector {
@@ -56,7 +57,10 @@ export class ModelSelector {
 
     // Return Copilot models if using Copilot provider
     if (settings.provider === 'copilot') {
-      return COPILOT_MODELS.map(m => ({
+      if (this.callbacks.getCopilotModels) {
+        return this.callbacks.getCopilotModels();
+      }
+      return COPILOT_FALLBACK_MODELS.map(m => ({
         value: m.id,
         label: m.name,
         description: m.provider,

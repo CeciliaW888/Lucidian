@@ -6,6 +6,14 @@
  */
 
 const COPILOT_CHAT_URL = 'https://api.githubcopilot.com/chat/completions';
+const COPILOT_MODELS_URL = 'https://api.githubcopilot.com/models';
+
+export interface CopilotApiModel {
+  id: string;
+  object: string;
+  created: number;
+  owned_by: string;
+}
 
 export interface CopilotChatMessage {
   role: 'system' | 'user' | 'assistant' | 'tool';
@@ -182,4 +190,24 @@ export async function sendChat(
   if (!choice?.message) throw new Error('No response from Copilot API');
 
   return choice.message;
+}
+
+export async function fetchModels(token: string): Promise<CopilotApiModel[]> {
+  const response = await fetch(COPILOT_MODELS_URL, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json',
+      'editor-version': 'vscode/1.95.0',
+      'editor-plugin-version': 'copilot/1.0.0',
+      'copilot-integration-id': 'vscode-chat',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Copilot models API error ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data.data ?? [];
 }

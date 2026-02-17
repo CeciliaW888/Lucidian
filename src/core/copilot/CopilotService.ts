@@ -16,9 +16,9 @@ import type { App } from 'obsidian';
 import type { SlashCommand } from '../types';
 import type { ChatMessage, ImageAttachment, StreamChunk } from '../types/chat';
 import { type CopilotToken,fetchCopilotToken, isTokenExpired } from './auth';
-import { type CopilotChatMessage, type CopilotToolCall,streamChat } from './client';
+import { type CopilotChatMessage, type CopilotToolCall, fetchModels, streamChat } from './client';
 import { CopilotToolExecutor } from './executor';
-import { COPILOT_MODELS, type CopilotModelOption,DEFAULT_COPILOT_MODEL } from './models';
+import { apiModelToOption, COPILOT_FALLBACK_MODELS, type CopilotModelOption, DEFAULT_COPILOT_MODEL_ID } from './models';
 import { COPILOT_TOOL_DEFINITIONS } from './tools';
 
 const MAX_TOOL_ROUNDS = 25;
@@ -69,12 +69,13 @@ export class CopilotService {
   private _isReady = false;
   private readyStateListeners = new Set<(ready: boolean) => void>();
   private customSystemPrompt = '';
+  private cachedModels: CopilotModelOption[] | null = null;
 
   constructor(app: App, vaultPath: string, pat: string, model?: string) {
     this.app = app;
     this.vaultPath = vaultPath;
     this.pat = pat;
-    this.selectedModel = model ?? DEFAULT_COPILOT_MODEL.id;
+    this.selectedModel = model ?? DEFAULT_COPILOT_MODEL_ID;
     this.executor = new CopilotToolExecutor(app, vaultPath);
   }
 
@@ -272,9 +273,13 @@ export class CopilotService {
     if (!this.pat) return false;
 
     try {
-      await this.ensureCopilotToken();
+      const token = await this.ensureCopilotToken();
       this._isReady = true;
       this.notifyReadyStateChange();
+
+      // Best-effort: fetch available models after auth succeeds
+      this.fetchAvailableModels(token).catch(() => {});
+
       return true;
     } catch {
       this._isReady = false;
@@ -370,14 +375,32 @@ export class CopilotService {
   updatePat(pat: string): void {
     this.pat = pat;
     this.copilotToken = null;
+    this.cachedModels = null;
     this._isReady = false;
   }
 
   getAvailableModels(): CopilotModelOption[] {
-    return COPILOT_MODELS;
+    return this.cachedModels ?? COPILOT_FALLBACK_MODELS;
   }
 
   // ── Private helpers ──
+
+  private async fetchAvailableModels(token: string): Promise<void> {
+    try {
+      const apiModels = await fetchModels(token);
+      if (apiModels.length === 0) return;
+
+      const models = apiModels.map(apiModelToOption);
+      this.cachedModels = models;
+
+      // Auto-select first available if current model isn't in the list
+      if (!models.some(m => m.id === this.selectedModel)) {
+        this.selectedModel = models[0].id;
+      }
+    } catch {
+      // Silent fallback to hardcoded list
+    }
+  }
 
   private async ensureCopilotToken(): Promise<string> {
     if (this.copilotToken && !isTokenExpired(this.copilotToken.expiresAt)) {

@@ -3,7 +3,7 @@ import type { App } from 'obsidian';
 import { Notice, PluginSettingTab, Setting } from 'obsidian';
 
 import { fetchDeviceCode, pollForAccessToken } from '../../core/copilot/auth';
-import { COPILOT_MODELS } from '../../core/copilot/models';
+import { COPILOT_FALLBACK_MODELS } from '../../core/copilot/models';
 import type { ProviderType } from '../../core/types';
 import { getCurrentPlatformKey, getHostnameKey } from '../../core/types';
 import { DEFAULT_CLAUDE_MODELS } from '../../core/types/models';
@@ -811,7 +811,8 @@ export class ClaudianSettingTab extends PluginSettingTab {
       .setName('Copilot model')
       .setDesc('The model to use for Copilot conversations')
       .addDropdown((dropdown) => {
-        for (const model of COPILOT_MODELS) {
+        const copilotModels = this.plugin.getCachedCopilotModels() ?? COPILOT_FALLBACK_MODELS;
+        for (const model of copilotModels) {
           dropdown.addOption(model.id, `${model.name} (${model.provider})`);
         }
         dropdown

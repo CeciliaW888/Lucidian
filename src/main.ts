@@ -9,6 +9,7 @@ import type { Editor, MarkdownView } from 'obsidian';
 import { addIcon, Notice, Plugin } from 'obsidian';
 
 import { AgentManager } from './core/agents';
+import type { CopilotModelOption } from './core/copilot';
 import { McpServerManager } from './core/mcp';
 import { PluginManager } from './core/plugins';
 import { StorageService } from './core/storage';
@@ -58,6 +59,7 @@ export default class ClaudianPlugin extends Plugin {
   cliResolver: ClaudeCliResolver;
   private conversations: Conversation[] = [];
   private runtimeEnvironmentVariables = '';
+  private _cachedCopilotModels: CopilotModelOption[] | null = null;
 
   async onload() {
     await this.loadSettings();
@@ -476,6 +478,14 @@ export default class ClaudianPlugin extends Plugin {
   /** Returns the runtime environment variables (fixed at plugin load). */
   getActiveEnvironmentVariables(): string {
     return this.runtimeEnvironmentVariables;
+  }
+
+  setCachedCopilotModels(models: CopilotModelOption[]): void {
+    this._cachedCopilotModels = models;
+  }
+
+  getCachedCopilotModels(): CopilotModelOption[] | null {
+    return this._cachedCopilotModels;
   }
 
   getResolvedClaudeCliPath(): string | null {
